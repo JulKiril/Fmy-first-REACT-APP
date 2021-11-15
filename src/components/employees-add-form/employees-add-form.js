@@ -8,9 +8,10 @@ class EmployeesAddForm extends Component{
         this.state = {
             name: "",
             salary: ""
-        }
-    }
-
+        } 
+              
+    }   
+    
     onValueChange = (e) =>{
         this.setState({
             [e.target.name]: e.target.value
@@ -19,32 +20,40 @@ class EmployeesAddForm extends Component{
     onSubmit = (e) =>{
         const {name, salary} = this.state;
         e.preventDefault();
+        
         if(name && salary){
             this.props.onAdd(name,salary);
             this.setState({
                 name: "",
-                salary: ""
+                salary: "",
+                error: false
             })
-            
+                      
             console.log("added");
-        } 
+        } else{
+            this.setState({
+                error: true
+            })
+        }
+
     }
     
-    render(){
-
-        const {name, salary} = this.state;
+    render(){    
+        let classNames = 'form-control new-post-label';   
+        const {name, salary, error} = this.state;
+        if(error){classNames = classNames + " red"}
         return (
             <div className="app-add-form">
                 <h3>Добавьте нового сотрудника</h3>
                 <form
                     className="add-form d-flex">
                     <input type="text"
-                        className="form-control new-post-label"
+                        className={classNames}
                         placeholder="Как его зовут?" onChange={this.onValueChange}
                         name="name"
                         value={name}/>
                     <input type="number"
-                        className="form-control new-post-label"
+                        className={classNames}
                         placeholder="З/П в $?" onChange={this.onValueChange}
                         name="salary"
                         value={salary}
